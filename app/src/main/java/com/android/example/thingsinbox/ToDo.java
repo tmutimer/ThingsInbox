@@ -2,11 +2,13 @@ package com.android.example.thingsinbox;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ToDo {
+public class ToDo extends ThingsItem {
 
     private static final String TAG = ToDo.class.getSimpleName();
 
@@ -19,32 +21,54 @@ public class ToDo {
     private String mList;
 
     public static class Builder {
-        private String mTitle = "";
-        private String mNotes = "";
-        private String mDate = "";
-        private String mDeadline = "";
-        private String[] mSubtasks = {""};
-        private String[] mTags = {""};
-        private String mList = "";
+        private String mTitle;
+        private String mNotes;
+        private String mDate;
+        private String mDeadline;
+        private String[] mSubtasks;
+        private String[] mTags;
+        private String mList;
 
-        public Builder title(String title) { mTitle = title; return this; }
+        //Builder methods make use of nulls so that Gson will exclude from Json
 
-        public Builder notes(String notes) { mNotes = notes; return this; }
+        public Builder title(String title) {
+            mTitle = title.isEmpty() ? null : title;
+            return this;
+        }
 
-        public Builder whenString(String dateOption) { mDate = dateOption; return this;}
+        public Builder notes(String notes) {
+            mNotes = notes.isEmpty() ? null : notes;
+            return this;
+        }
 
-        public Builder subtasks(String[] subtasks) { mSubtasks = subtasks; return this;}
+        public Builder when(String date) {
+            mDate = date.isEmpty() ? null : date;
+            return this;
+        }
 
-        public Builder deadline(String deadline) { mDeadline = deadline; return this; }
+        public Builder subtasks(String[] subtasks) {
+            mSubtasks = (subtasks.length == 1 && subtasks[0].equals("")) ? null : subtasks;
+            return this;
+        }
 
-        public Builder tags(String[] tags) { mTags = tags; return this; }
+        public Builder deadline(String deadline) {
+            mDeadline = deadline.isEmpty() ? null : deadline;
+            return this;
+        }
 
-        public Builder list(String projectOrArea) { mList = projectOrArea; return this;}
+        public Builder tags(String[] tags) {
+            mTags = (tags.length == 1 && tags[0].equals("")) ? null : tags;
+            return this;
+        }
+
+        public Builder list(String projectOrArea) {
+            mList = projectOrArea.isEmpty() ? null : projectOrArea;
+            return this;
+        }
 
         public ToDo build() {
             return new ToDo(mTitle, mNotes, mDate, mDeadline, mSubtasks, mTags, mList);
         }
-
     }
 
     private ToDo(String title, String notes, String date, String deadline, String[] subtasks, String[] tags, String list) {
@@ -65,16 +89,16 @@ public class ToDo {
                     hasList());
     }
 
-    private boolean hasDate() { return !(mDate.equals("inbox")); }
+    private boolean hasDate() { return mDate != null; }
 
-    private boolean hasDeadline() { return !(mDeadline.equals("")); }
+    private boolean hasDeadline() { return mDeadline != null; }
 
     //TODO this may need changing after messing around with the views for this. Might not even be correct now.
-    private boolean hasSubtasks() { return !(mSubtasks.length == 1 && (mSubtasks[0].equals(""))); }
+    private boolean hasSubtasks() { return mSubtasks != null; }
 
-    private boolean hasTags() { return !(mTags.length == 1 && (mTags[0].equals(""))); }
+    private boolean hasTags() { return mTags != null; }
 
-    private boolean hasList() { return !(mList.equals("")); }
+    private boolean hasList() { return mList != null; }
 
 
     /**
@@ -96,25 +120,35 @@ public class ToDo {
 
         message.sendMessageAsEmail(context);
     }
-    private String getUrlString() {
-        JSONObject titledToDo = new JSONObject();
+
+    //TODO as per Project, this can probably be much simplified using Gson.
+    public JSONObject getJSONObject() {
+        Gson gson = new Gson();
+        JSONObject toDoJson = new JSONObject();
         JSONObject attributes = new JSONObject();
         try {
 
-            //Process title and notes
-            attributes.put("title", mTitle);
-            attributes.put("notes", mNotes);
+            //Process title and notes. 2000 limit means JSONObject should be kept to bare minimum, no shortcuts.
+
+            if (mTitle != null) {
+                attributes.put("title", mTitle);
+            }
+            if (mNotes != null)
+                attributes.put("notes", mNotes);
 
             if (hasDate())
                 attributes.put("when", mDate);
 
-            if (hasDeadline()) //todo determine if this if logic is necessary... if so, determine if cleaner code or shorter url is better...
+            if (hasDeadline())
                 attributes.put("deadline", mDeadline);
 
-            if (hasTags())
-                attributes.put("tags", mTags); //fixme this will need to be processed like subtasks below, but for now hasTags is always false
+            if (hasList())
+                attributes.put("list", mList);
 
-            if(hasSubtasks()) {
+            if (hasTags())
+                attributes.put("tags", gson.toJson(mTags));
+
+            if (hasSubtasks()) {
                 JSONArray checklistItems = new JSONArray();
 
                 for(String subtask : mSubtasks) {
@@ -130,20 +164,14 @@ public class ToDo {
                 attributes.put("checklist-items",checklistItems);
             }
 
-            titledToDo
+            toDoJson
                     .put("type", "to-do")
                     .put("attributes", attributes);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return MainActivity.URL_PREPEND + titledToDo.toString()
-                .replace(" ", "%20")
-                .replace("{","%7B")
-                .replace("}", "%7D")
-                .replace("\"","%22")
-                + "%5D"; // "]";
+        return toDoJson;
     }
-
 
 }

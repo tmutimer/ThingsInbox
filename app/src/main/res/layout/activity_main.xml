@@ -1,102 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:divider="@drawable/divider"
+    android:dividerPadding="16dp"
+    android:showDividers="middle">
 
     <EditText
         android:id="@+id/et_todo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:hint="@string/todo_title_hint"
-        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textCapSentences"
+        android:padding="16dp"
+        android:paddingStart="60dp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="30sp"
-        android:background="@null"
-        android:paddingStart="60dp"
-        android:paddingTop="16dp"
-        android:inputType="textCapSentences"/>
-
-    <View
-        android:id="@+id/title_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/et_todo_title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_todo_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:padding="16dp"
         android:background="@null"
-        android:hint="@string/todo_notes_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_divider" />
-
-    <View
-        android:id="@+id/notes_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/et_todo_notes" />
+        android:hint="@string/todo_notes_hint" />
 
     <EditText
         android:id="@+id/et_todo_subtasks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:padding="16dp"
         android:background="@null"
-        android:hint="@string/todo_subtasks_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notes_divider" />
-
-    <View
-        android:id="@+id/subtasks_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/et_todo_subtasks" />
+        android:hint="@string/todo_subtasks_hint" />
 
     <Spinner
         android:id="@+id/sp_date_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/subtasks_divider"
-        android:layout_margin="16dp"
-        android:spinnerMode="dropdown" />
+        android:padding="16dp"
+        android:spinnerMode="dropdown"
+        tools:entries="@array/date_choice_array"/>
 
-    <View
-    android:id="@+id/date_picker_divider"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_marginTop="16dp"
-    android:background="@android:color/darker_gray"
-    app:layout_constraintTop_toBottomOf="@id/sp_date_picker" />
+    <EditText
+        android:id="@+id/et_deadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Deadline - coming soon"
+        android:padding="16dp"
+        android:background="@null"/>
 
-<!--    <Spinner-->
-<!--        android:id="@+id/et_todo_project_area"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/date_picker_divider"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:spinnerMode="dropdown"-->
-<!--        android:entries="@array/project_area_choice"/>-->
+    <EditText
+        android:id="@+id/et_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/list_hint"
+        android:padding="16dp"
+        android:background="@null"/>
 
-<!--    <View-->
-<!--        android:id="@+id/project_divider"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:background="@android:color/darker_gray"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/sp_date_picker"/>-->
+    <EditText
+        android:id="@+id/et_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tags_hint"
+        android:padding="16dp"
+        android:background="@null"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

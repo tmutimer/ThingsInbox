@@ -8,6 +8,8 @@
     <string name="action_settings">Settings</string>
     <string name="todo_subtasks_hint">Add subtasks, separated by lines</string>
     <string name="add_project">Add project</string>
+    <string name="tags_hint">Add tags, separated by lines</string>
+    <string name="list_hint">Add a Project or Area</string>
     <string-array name="date_choice_array">
         <item>Inbox</item>
         <item>Today</item>
@@ -18,7 +20,7 @@
         <item>Choose Date…</item>
     </string-array>
     <string-array name="date_values_array">
-        <item>inbox</item>
+        <item></item>
         <item>today</item>
         <item>tomorrow</item>
         <item>evening</item>

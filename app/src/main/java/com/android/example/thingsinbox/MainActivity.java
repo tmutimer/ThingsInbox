@@ -1,10 +1,5 @@
 package com.android.example.thingsinbox;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -25,10 +25,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText mToDoTitle;
     private EditText mToDoNotes;
     private EditText mToDoSubtasks;
-    private EditText mToDoTags;
-    private EditText mToDoProject;
     private Spinner mToDoDate;
-    private String mSelectedWhenOption;
+    private TextView mDeadline;
+    private EditText mToDoTags;
+    private EditText mToDoList;
+    private String mDate;
 
 
     @Override
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mToDoTitle = (EditText) findViewById(R.id.et_todo_title);
         mToDoNotes = (EditText) findViewById(R.id.et_todo_notes);
         mToDoSubtasks = (EditText) findViewById(R.id.et_todo_subtasks);
+        mToDoTags = (EditText) findViewById(R.id.et_tags);
+        mToDoList = (EditText) findViewById(R.id.et_list);
 
         mToDoDate = (Spinner) findViewById(R.id.sp_date_picker);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //Date Spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mSelectedWhenOption = getResources().getStringArray(R.array.date_values_array)[(int) id];
+        mDate = getResources().getStringArray(R.array.date_values_array)[(int) id];
         if(id == 6) { //Choose Date
             //TODO bring up DatePickerFragment - may need to change this activity to fragment
 //            FragmentManager manager = getSupportFragmentManager();
@@ -83,12 +86,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_send:
-
                 ToDo toDo = new ToDo.Builder()
                         .title(mToDoTitle.getText().toString())
                         .notes(mToDoNotes.getText().toString())
-                        .whenString(mSelectedWhenOption)
                         .subtasks(getSubtasks())
+                        .when(mDate)
+//                        .deadline(mToDoDeadline)
+                        .list(mToDoList.getText().toString())
+                        .tags(getTags())
                         .build();
 
                 toDo.send(this);
@@ -99,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private String[] getSubtasks() {
         return mToDoSubtasks.getText().toString()
+                .split("\\r?\\n"); //Splits EditText population by linebreak
+    }
+
+    private String[] getTags() {
+        return mToDoTags.getText().toString()
                 .split("\\r?\\n"); //Splits EditText population by linebreak
     }
 
