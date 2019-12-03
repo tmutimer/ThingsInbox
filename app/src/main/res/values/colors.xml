@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimary">#2baff5</color>
     <color name="colorPrimaryDark">#464646</color>
-    <color name="colorAccent">#64B5F6</color>
+    <color name="colorAccent">#FC356B</color>
+    <color name="colorAccentCalendar">#FC356B</color>
 </resources>

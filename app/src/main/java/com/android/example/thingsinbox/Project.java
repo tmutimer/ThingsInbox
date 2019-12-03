@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+//TODO Add project support later on, if needed, but for now, do not work further on implementing.
 public class Project extends ThingsItem {
     private String mTitle;
     private String mNotes;

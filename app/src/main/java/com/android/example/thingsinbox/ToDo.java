@@ -93,7 +93,6 @@ public class ToDo extends ThingsItem {
 
     private boolean hasDeadline() { return mDeadline != null; }
 
-    //TODO this may need changing after messing around with the views for this. Might not even be correct now.
     private boolean hasSubtasks() { return mSubtasks != null; }
 
     private boolean hasTags() { return mTags != null; }
