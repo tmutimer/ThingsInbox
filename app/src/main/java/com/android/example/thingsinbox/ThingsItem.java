@@ -3,6 +3,7 @@ package com.android.example.thingsinbox;
 import org.json.JSONObject;
 
 public abstract class ThingsItem {
+
     public abstract JSONObject getJSONObject();
 
     public String getUrlString() {

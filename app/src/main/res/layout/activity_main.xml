@@ -4,198 +4,253 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipChildren="false">
 
-    <androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    card_view:cardElevation ="8dp"
-    card_view:cardCornerRadius="12dp">
-
-        <!--    android:background="@drawable/todo_background_inset"-->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:context=".MainActivity"
-            android:showDividers="middle"
-            android:animateLayoutChanges="true"
-            android:layout_margin="8dp"
-            android:elevation="10dp">
-
-            <include android:id="@+id/meta_bar"
-                layout="@layout/todo_metadata_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:context=".MainActivity"
-            android:divider="@drawable/divider"
-            android:dividerPadding="16dp"
-            android:showDividers="middle"
             android:animateLayoutChanges="true">
 
-            <EditText
-                android:id="@+id/et_todo_title"
-                android:layout_width="match_parent"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:hint="@string/todo_title_hint"
-                android:inputType="textCapSentences"
-                android:padding="16dp"
-                android:paddingStart="60dp"
-                android:textSize="30sp"
-                android:importantForAutofill="no" />
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:layout_marginEnd="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:translationZ="10dp"
+                card_view:elevation="16dp"
+                card_view:layout_constraintBottom_toBottomOf="@+id/cardView"
+                card_view:layout_constraintEnd_toEndOf="@+id/cardView"
+                card_view:layout_constraintTop_toBottomOf="@+id/cardView"
+                card_view:maxImageSize="32dp"
+                card_view:srcCompat="@drawable/ic_send_black_24dp"
+                card_view:tint="#fafafa" />
 
-            <EditText
-                android:id="@+id/et_todo_notes"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:background="@null"
-                android:hint="@string/todo_notes_hint"
-                android:importantForAutofill="no"
-                android:inputType="textCapSentences" />
+                android:layout_margin="10dp"
+                android:layout_marginTop="16dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="8dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="10dp">
 
-            <LinearLayout
-                android:id="@+id/ll_subtasks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <EditText
-                    android:id="@+id/et_todo_subtasks"
-                    android:layout_width="328dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="8dp"
-                    android:background="@null"
-                    android:hint="@string/todo_subtasks_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"/>
-                <ImageButton
-                    android:id="@+id/button_cancel_subtasks"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_cancel_black_24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
+                    android:layout_margin="8dp"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    tools:context=".MainActivity">
+
+                    <include
+                        android:id="@+id/meta_bar"
+                        layout="@layout/todo_metadata_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:clipChildren="false"
+                        android:divider="@drawable/divider"
+                        android:dividerPadding="16dp"
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        tools:context=".MainActivity">
+
+                        <EditText
+                            android:id="@+id/et_todo_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="@string/todo_title_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:padding="16dp"
+                            android:paddingStart="60dp"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/et_todo_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="@string/todo_notes_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:padding="16dp"
+                            android:paddingStart="32dp"
+                            android:paddingEnd="32dp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_subtasks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/et_todo_subtasks"
+                                android:layout_width="328dp"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/todo_subtasks_hint"
+                                android:importantForAutofill="no"
+                                android:inputType="textMultiLine"
+                                android:paddingStart="32dp"
+                                android:paddingTop="16dp"
+                                android:paddingEnd="8dp"
+                                android:paddingBottom="16dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_subtasks"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/ll_date_picker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <Spinner
-                    android:id="@+id/sp_date_picker"
-                    android:visibility="visible"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:spinnerMode="dropdown"
-                    tools:entries="@array/date_choice_array"/>
-                <ImageButton
-                    android:id="@+id/button_cancel_date_picker"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_cancel_black_24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_date_picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/ll_deadline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <EditText
-                    android:id="@+id/et_deadline"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Deadline - coming soon"
-                    android:padding="16dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:background="@null"
-                    android:importantForAutofill="no"/>
-                <ImageButton
-                    android:id="@+id/button_cancel_deadline"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_cancel_black_24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
+                            <Spinner
+                                android:id="@+id/sp_date_picker"
+                                android:layout_width="328dp"
+                                android:layout_height="wrap_content"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp"
+                                android:spinnerMode="dropdown"
+                                android:visibility="visible"
+                                tools:entries="@array/date_choice_array" />
 
-            <LinearLayout
-                android:id="@+id/ll_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <EditText
-                    android:id="@+id/et_list"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/list_hint"
-                    android:padding="16dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:background="@null"
-                    android:importantForAutofill="no"/>
-                <ImageButton
-                    android:id="@+id/button_cancel_list"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_cancel_black_24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
+                            <ImageButton
+                                android:id="@+id/button_cancel_date_picker"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/ll_deadline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/ll_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <EditText
-                    android:id="@+id/et_tags"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/tags_hint"
-                    android:padding="16dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:background="@null"
-                    android:importantForAutofill="no"/>
-                <ImageButton
-                    android:id="@+id/button_cancel_tags"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_cancel_black_24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
+                            <ImageButton
+                                android:id="@+id/deadline_picker_button"
+                                android:onClick="showDatePicker"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/ic_today_black_24dp"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="12dp"/>
+
+                            <TextView
+                                android:id="@+id/et_deadline"
+                                android:layout_width="258dp"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="Deadline - coming soon"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_deadline"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/et_list"
+                                android:layout_width="328dp"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/list_hint"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_list"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
 
 
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                        <LinearLayout
+                            android:id="@+id/ll_tags"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/et_tags"
+                                android:layout_width="328dp"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/tags_hint"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_tags"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="@null"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

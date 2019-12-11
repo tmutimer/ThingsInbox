@@ -16,11 +16,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String URL_PREPEND = "things:///json?data=%5B";
+
+    //TODO implement SharedPreferences and make this recipient email address one of them. Other preferences:
+    // - Integrated or external email sending. (integrated might be from an email I own, or one of theirs.
+    //     - Privacy less of an issue if they configure their own email/use external. If integrated, config becomes simpler
+    //       but delay time and/or privacy/security could become an issue.
+    // - If integrated sending, email credentials
+    // - Batch or individual sending (however would need to work around the 2000 limit; could quite happily send multiple messages.)
 
     public static String sEmailAddress = "add-to-things-vkhkcwncbj2t3atem55@things.email";
 
@@ -28,10 +43,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText mToDoNotes;
     private EditText mToDoSubtasks;
     private Spinner mToDoDate;
-    private TextView mDeadline;
+    private TextView mToDoDeadline;
     private EditText mToDoTags;
     private EditText mToDoList;
-    private String mDate;
+    private String mDateString;
 
     private ImageButton mSubtasksCancelButton;
     private ImageButton mDateCancelButton;
@@ -50,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private LinearLayout mDeadlineLayout;
     private LinearLayout mListLayout;
     private LinearLayout mTagsLayout;
+    private FloatingActionButton mSendActionButton;
+
+    private ArrayAdapter<CharSequence> mAdapter;
 
 
     @Override
@@ -60,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
-        //------------------------BEGIN WIRING-----------------------//
+        //------------------------BEGIN VIEW WIRING-----------------------//
 
         //wire up input input fields
         mToDoTitle = (EditText) findViewById(R.id.et_todo_title);
         mToDoNotes = (EditText) findViewById(R.id.et_todo_notes);
         mToDoSubtasks = (EditText) findViewById(R.id.et_todo_subtasks);
         mToDoDate = (Spinner) findViewById(R.id.sp_date_picker);
-        mDeadline = (EditText) findViewById(R.id.et_deadline);
+        mToDoDeadline = (TextView) findViewById(R.id.et_deadline);
         mToDoList = (EditText) findViewById(R.id.et_list);
         mToDoTags = (EditText) findViewById(R.id.et_tags);
 
@@ -85,23 +103,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mListLayout = (LinearLayout) findViewById(R.id.ll_list);
         mTagsLayout = (LinearLayout) findViewById(R.id.ll_tags);
 
-        //wire up meta-information bar (wish I had used data binding already...)
+        //wire up meta-information bar (by now I wish I had used data binding...)
         mSubtasksButton = (ImageButton) findViewById(R.id.button_checklist_meta_bar);
         mDateButton = (ImageButton) findViewById(R.id.button_date_meta_bar);
         mDeadlineButton = (ImageButton) findViewById(R.id.button_deadline_meta_bar);
         mListButton = (ImageButton) findViewById(R.id.button_list_meta_bar);
         mTagsButton = (ImageButton) findViewById(R.id.button_tags_meta_bar);
 
+        //wire up floating send button
+        mSendActionButton = (FloatingActionButton) findViewById(R.id.send_button);
 
-        //------------------------END WIRING-----------------------//
+
+        //------------------------END VIEW WIRING-----------------------//
 
 
         //set up Date option spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+
+        ArrayList<String> dateChoiceArrayList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.date_choice_array)));
+        mAdapter = ArrayAdapter.createFromResource(this,
                 R.array.date_choice_array, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mToDoDate.setAdapter(adapter);
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mToDoDate.setAdapter(mAdapter);
         mToDoDate.setOnItemSelectedListener(this);
 
 
@@ -148,10 +171,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         //set up cancel buttons
+        //FIXME The fields visibly become empty before animation finishes
         mSubtasksCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSubtasksLayout.setVisibility(View.GONE);
+                mToDoSubtasks.setText("");
                 mSubtasksButton.setVisibility(View.VISIBLE);
             }
         });
@@ -160,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 mDateLayout.setVisibility(View.GONE);
+                mToDoDate.setSelection(0);
                 mDateButton.setVisibility(View.VISIBLE);
             }
         });
@@ -168,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 mDeadlineLayout.setVisibility(View.GONE);
+                mToDoDeadline.setText("");
                 mDeadlineButton.setVisibility(View.VISIBLE);
             }
         });
@@ -176,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 mListLayout.setVisibility(View.GONE);
+                mToDoList.setText("");
                 mListButton.setVisibility(View.VISIBLE);
             }
         });
@@ -184,25 +212,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 mTagsLayout.setVisibility(View.GONE);
+                mToDoTags.setText("");
                 mTagsButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mSendActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToDo();
             }
         });
     }
 
 
 
-    //Date Spinner
+    //Date Spinner. Potentially this should go in its own class.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mDate = getResources().getStringArray(R.array.date_values_array)[(int) id];
+        mDateString = getResources().getStringArray(R.array.date_values_array)[(int) id];
         if(id == 6) { //Choose Date
-            //TODO bring up DatePickerFragment - may need to change this activity to fragment
-//            FragmentManager manager = getSupportFragmentManager();
-//            DatePickerFragment dialog = DatePickerFragment.newInstance();
-//            dialog.setTargetFragment(MainActivity.this, REQUEST_DATE);
-//            dialog.show(manager, DIALOG_DATE);
+            showDatePicker(view);
         }
     }
+
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -221,20 +255,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.action_send:
-                ToDo toDo = new ToDo.Builder()
-                        .title(mToDoTitle.getText().toString())
-                        .notes(mToDoNotes.getText().toString())
-                        .subtasks(getSubtasks())
-                        .when(mDate)
-//                        .deadline(mToDoDeadline)
-                        .list(mToDoList.getText().toString())
-                        .tags(getTags())
-                        .build();
-
-                toDo.send(this);
+                sendToDo();
                 return true;
         }
         return false;
+    }
+
+    private void sendToDo() {
+        ToDo toDo = new ToDo.Builder()
+                .title(mToDoTitle.getText().toString())
+                .notes(mToDoNotes.getText().toString())
+                .subtasks(getSubtasks())
+                .when(mDateString)
+                .deadline(mToDoDeadline.getText().toString())
+                .list(mToDoList.getText().toString())
+                .tags(getTags())
+                .build();
+
+        toDo.send(this);
     }
 
     private String[] getSubtasks() {
@@ -242,17 +280,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .split("\\r?\\n"); //Splits EditText population by linebreak
     }
 
+
+    //this should probably be done away with after implementing Chips.
     private String[] getTags() {
         return mToDoTags.getText().toString()
                 .split("\\r?\\n"); //Splits EditText population by linebreak
     }
 
+    public void showDatePicker(View view) {
+        DialogFragment fragment = new DatePickerFragment(view);
+        fragment.show(getSupportFragmentManager(),"datePicker");
+    }
 
+    public String processDatePickerResult(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+        return new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    }
+
+    public void setViewDate(View view, int year, int month, int dayOfMonth) {
+        String datePickerResult = processDatePickerResult(year, month, dayOfMonth);
+
+        if(view.getId() ==  R.id.deadline_picker_button) {
+            mToDoDeadline.setText(datePickerResult);
+        } else {
+            //TODO sort out spinner display of custom date if possible
+            mDateString = datePickerResult;
+        }
+    }
 }
-
-//TODO Decide on a UI design as this will save time wiring up views later
-//  - The task entry screen should be available in one click
-//  - History should be on screen, showing some recent notes.
 
 //TODO Add further metadata support:
 //  - Date
@@ -260,11 +316,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //  - Deadline
 //      - DatePickerFragment
 //  - Tags
-//      - Multiple choice Powerlist - use Room to store this
+//      - Multiple choice Powerlist
+//      - Make use of Chips!!!
+//      - Should be persisted simply in file storage.
 
 //TODO support configuration of list of Tags
 //  - allow own choice of configured tags
-//      - allow choice of highlight color, reflected in the multi-powerlist
+
 
 //TODO Add history screen for keeping note of recently sent notes
 //  - Keep database of To-Do objects (use Room probably?)
@@ -278,8 +336,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //TODO Stretch Add project design screen:
 //  adding a new project/area allows
 
-
 //TODO Stretch add startup configuration splash
+//TODO Stretch allow customisation of UI colors
+//TODO Stretch allow customisation of individual Tag colors.
 //TODO Stretch allow saving of Project/task templates
 //TODO Stretch update ToDo to work with Gson instead of JSONObject. Create inner class for Attributes potentially?
 //TODO Stretch incorporate applescript functionality?? Perhaps as part of initial setup. Would be cool.

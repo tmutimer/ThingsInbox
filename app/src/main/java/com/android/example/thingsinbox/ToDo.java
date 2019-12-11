@@ -1,6 +1,7 @@
 package com.android.example.thingsinbox;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
@@ -32,17 +33,17 @@ public class ToDo extends ThingsItem {
         //Builder methods make use of nulls so that Gson will exclude from Json
 
         public Builder title(String title) {
-            mTitle = title.isEmpty() ? null : title;
+            mTitle = TextUtils.isEmpty(title) ? null : title;
             return this;
         }
 
         public Builder notes(String notes) {
-            mNotes = notes.isEmpty() ? null : notes;
+            mNotes = TextUtils.isEmpty(notes) ? null : notes;
             return this;
         }
 
         public Builder when(String date) {
-            mDate = date.isEmpty() ? null : date;
+            mDate = TextUtils.isEmpty(date) ? null : date;
             return this;
         }
 
@@ -52,7 +53,7 @@ public class ToDo extends ThingsItem {
         }
 
         public Builder deadline(String deadline) {
-            mDeadline = deadline.isEmpty() ? null : deadline;
+            mDeadline = TextUtils.isEmpty(deadline) ? null : deadline;
             return this;
         }
 
@@ -62,7 +63,7 @@ public class ToDo extends ThingsItem {
         }
 
         public Builder list(String projectOrArea) {
-            mList = projectOrArea.isEmpty() ? null : projectOrArea;
+            mList = TextUtils.isEmpty(projectOrArea) ? null : projectOrArea;
             return this;
         }
 
@@ -118,9 +119,10 @@ public class ToDo extends ThingsItem {
         }
 
         message.sendMessageAsEmail(context);
+
     }
 
-    //TODO as per Project, this can probably be much simplified using Gson.
+    //This could probably be much simplified using Gson.
     public JSONObject getJSONObject() {
         Gson gson = new Gson();
         JSONObject toDoJson = new JSONObject();
@@ -144,8 +146,10 @@ public class ToDo extends ThingsItem {
             if (hasList())
                 attributes.put("list", mList);
 
-            if (hasTags())
-                attributes.put("tags", gson.toJson(mTags));
+            if (hasTags()) {
+                JSONArray tagsJsonArray = new JSONArray(mTags);
+                attributes.put("tags", tagsJsonArray);
+            }
 
             if (hasSubtasks()) {
                 JSONArray checklistItems = new JSONArray();
@@ -172,5 +176,4 @@ public class ToDo extends ThingsItem {
         }
         return toDoJson;
     }
-
 }
