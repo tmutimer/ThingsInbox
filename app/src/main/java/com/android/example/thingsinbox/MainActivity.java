@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .tags(getTags())
                 .build();
 
-        toDo.send(this);
+        toDo.send(this, mEmailAddress);
     }
 
     private String[] getSubtasks() {

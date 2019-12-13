@@ -105,9 +105,9 @@ public class ToDo extends ThingsItem {
      * Sends the To-Do as an email, either directly (for simple notes), or with URL to open inside Things
      * (for complex notes).
      */
-    public void send(Context context) {
+    public void send(Context context, String recipient) {
         Message message = new Message();
-        message.setRecipients(new String[] {MainActivity.mEmailAddress});
+        message.setRecipients(new String[] {recipient});
 
         if(isMessageComplex()) {
             String urlString = getUrlString();
