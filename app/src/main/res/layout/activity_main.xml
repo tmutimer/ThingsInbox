@@ -11,6 +11,18 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">
 
+            <ImageButton
+                android:id="@+id/settings_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/ic_settings_black_24dp"
+                android:elevation="9dp"
+                android:onClick="openSettings"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
@@ -54,7 +66,7 @@
                         layout="@layout/todo_metadata_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right" />
+                        android:layout_gravity="right"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,7 +181,7 @@
                                 android:layout_width="258dp"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:hint="Deadline - coming soon"
+                                android:hint="@string/todo_deadline_hint"
                                 android:importantForAutofill="no"
                                 android:padding="16dp"
                                 android:paddingStart="8dp"
@@ -191,13 +203,14 @@
                             android:layout_height="wrap_content"
                             android:visibility="gone">
 
-                            <EditText
-                                android:id="@+id/et_list"
+                            <AutoCompleteTextView
+                                android:id="@+id/actv_list"
                                 android:layout_width="328dp"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:hint="@string/list_hint"
+                                android:hint="@string/todo_list_hint"
                                 android:importantForAutofill="no"
+                                android:completionThreshold="0"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
                                 android:paddingEnd="32dp" />
@@ -219,12 +232,13 @@
                             android:layout_height="wrap_content"
                             android:visibility="gone">
 
-                            <EditText
-                                android:id="@+id/et_tags"
+                            <MultiAutoCompleteTextView
+                                android:id="@+id/mactv_tags"
                                 android:layout_width="328dp"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:hint="@string/tags_hint"
+                                android:hint="@string/todo_tags_hint"
+                                android:completionThreshold="0"
                                 android:importantForAutofill="no"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"

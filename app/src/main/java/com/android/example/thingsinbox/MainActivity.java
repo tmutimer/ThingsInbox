@@ -1,22 +1,22 @@
 package com.android.example.thingsinbox;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,22 +30,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public static final String URL_PREPEND = "things:///json?data=%5B";
 
-    //TODO implement SharedPreferences and make this recipient email address one of them. Other preferences:
-    // - Integrated or external email sending. (integrated might be from an email I own, or one of theirs.
-    //     - Privacy less of an issue if they configure their own email/use external. If integrated, config becomes simpler
-    //       but delay time and/or privacy/security could become an issue.
-    // - If integrated sending, email credentials
-    // - Batch or individual sending (however would need to work around the 2000 limit; could quite happily send multiple messages.)
-
-    public static String sEmailAddress = "add-to-things-vkhkcwncbj2t3atem55@things.email";
-
     private EditText mToDoTitle;
     private EditText mToDoNotes;
     private EditText mToDoSubtasks;
     private Spinner mToDoDate;
     private TextView mToDoDeadline;
-    private EditText mToDoTags;
-    private EditText mToDoList;
+    private MultiAutoCompleteTextView mToDoTags;
+    private AutoCompleteTextView mToDoList;
     private String mDateString;
 
     private ImageButton mSubtasksCancelButton;
@@ -67,16 +58,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private LinearLayout mTagsLayout;
     private FloatingActionButton mSendActionButton;
 
-    private ArrayAdapter<CharSequence> mAdapter;
+    private SharedPreferences mPreferences;
+    private String mEmailAddress;
+    private String[] mTagArray;
+    private String[] mListArray;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        updateFromSharedPreferences();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
 
         //------------------------BEGIN VIEW WIRING-----------------------//
 
@@ -86,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mToDoSubtasks = (EditText) findViewById(R.id.et_todo_subtasks);
         mToDoDate = (Spinner) findViewById(R.id.sp_date_picker);
         mToDoDeadline = (TextView) findViewById(R.id.et_deadline);
-        mToDoList = (EditText) findViewById(R.id.et_list);
-        mToDoTags = (EditText) findViewById(R.id.et_tags);
+        mToDoList = (AutoCompleteTextView) findViewById(R.id.actv_list);
+        mToDoTags = (MultiAutoCompleteTextView) findViewById(R.id.mactv_tags);
 
         //wire up cancel buttons
         mSubtasksCancelButton = (ImageButton) findViewById(R.id.button_cancel_subtasks);
@@ -120,12 +114,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //set up Date option spinner
 
         ArrayList<String> dateChoiceArrayList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.date_choice_array)));
-        mAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> spinneradapter = ArrayAdapter.createFromResource(this,
                 R.array.date_choice_array, android.R.layout.simple_spinner_item);
 
-        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mToDoDate.setAdapter(mAdapter);
+        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mToDoDate.setAdapter(spinneradapter);
         mToDoDate.setOnItemSelectedListener(this);
+
+        //set up List AutoCompleteTextView
+
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mListArray);
+
+        mToDoList.setAdapter(listAdapter);
+
+        //set up Tags MultiAutoCompleteTextView
+
+        ArrayAdapter<String> tagAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mTagArray);
+
+        mToDoTags.setAdapter(tagAdapter);
+        mToDoTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 
         //set up meta-bar listeners
@@ -225,6 +234,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    public void openSettings(View v) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
 
     //Date Spinner. Potentially this should go in its own class.
@@ -236,30 +249,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.compose_menu, menu);
-        return true;
-    }
+
+//    //Options menu
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.compose_menu, menu);
+//        return true;
+//    }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case R.id.action_send:
-                sendToDo();
-                return true;
-        }
-        return false;
+    protected void onResume() {
+        super.onResume();
+        //TODO Could improve performance by implementing onPreferenceChangeListener
+        //as this is called in onCreate and then again in onResume()
+        updateFromSharedPreferences();
     }
+
+    private void updateFromSharedPreferences() {
+        mEmailAddress = mPreferences.getString("email", "");
+        mTagArray = splitByLineBreak(mPreferences.getString("tags", "Xmas\nErrand"));
+        mListArray = splitByLineBreak(mPreferences.getString("lists", "Money\nSocial"));
+    }
+
 
     private void sendToDo() {
         ToDo toDo = new ToDo.Builder()
@@ -276,15 +293,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private String[] getSubtasks() {
-        return mToDoSubtasks.getText().toString()
-                .split("\\r?\\n"); //Splits EditText population by linebreak
+        return splitByLineBreak(mToDoSubtasks.getText().toString());
     }
 
 
     //this should probably be done away with after implementing Chips.
     private String[] getTags() {
         return mToDoTags.getText().toString()
-                .split("\\r?\\n"); //Splits EditText population by linebreak
+                .trim()
+                .split("\\s*,\\s*");
+    }
+
+    public String[] splitByLineBreak(String string) {
+        return string.split("\\r?\\n");
     }
 
     public void showDatePicker(View view) {
@@ -309,36 +330,3 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 }
-
-//TODO Add further metadata support:
-//  - Date
-//      - Further DatePickerFragment may be chosen for custom date
-//  - Deadline
-//      - DatePickerFragment
-//  - Tags
-//      - Multiple choice Powerlist
-//      - Make use of Chips!!!
-//      - Should be persisted simply in file storage.
-
-//TODO support configuration of list of Tags
-//  - allow own choice of configured tags
-
-
-//TODO Add history screen for keeping note of recently sent notes
-//  - Keep database of To-Do objects (use Room probably?)
-//  - Bring them back in a RecyclerView
-//  - Can expand notes somehow, to see more detailed info
-
-//TODO Add Project/Area list configuration
-//  this allows choosing of an Area or project to assign a task to
-
-
-//TODO Stretch Add project design screen:
-//  adding a new project/area allows
-
-//TODO Stretch add startup configuration splash
-//TODO Stretch allow customisation of UI colors
-//TODO Stretch allow customisation of individual Tag colors.
-//TODO Stretch allow saving of Project/task templates
-//TODO Stretch update ToDo to work with Gson instead of JSONObject. Create inner class for Attributes potentially?
-//TODO Stretch incorporate applescript functionality?? Perhaps as part of initial setup. Would be cool.

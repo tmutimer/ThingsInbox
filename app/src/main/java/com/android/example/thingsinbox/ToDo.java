@@ -107,7 +107,7 @@ public class ToDo extends ThingsItem {
      */
     public void send(Context context) {
         Message message = new Message();
-        message.setRecipients(new String[] {MainActivity.sEmailAddress});
+        message.setRecipients(new String[] {MainActivity.mEmailAddress});
 
         if(isMessageComplex()) {
             String urlString = getUrlString();

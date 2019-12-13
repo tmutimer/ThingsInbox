@@ -1,16 +1,20 @@
 <resources>
     <string name="app_name">Things Inbox</string>
+
     <string name="todo_title_hint">Add title</string>
-    <string name="send_button">Send as Email</string>
-    <string name="email_todo_subject">Import this To-Do (%1$s)</string>
     <string name="todo_notes_hint">Add notes</string>
+    <string name="todo_subtasks_hint">Add subtasks, separated by lines</string>
+    <string name="todo_tags_hint">Add tags</string>
+    <string name="todo_list_hint">Add a project or area</string>
+    <string name="todo_deadline_hint">Add a deadline</string>
+
+    <string name="email_todo_subject">Import this To-Do (%1$s)</string>
+
+    <string name="send_button">Send as Email</string>
+
     <string name="action_send">Send</string>
     <string name="action_settings">Settings</string>
-    <string name="todo_subtasks_hint">Add subtasks, separated by lines</string>
-    <string name="add_project">Add project</string>
-    <string name="tags_hint">Add tags, separated by lines</string>
-    <string name="list_hint">Add a Project or Area</string>
-    <string name="history">History</string>
+
     <string-array name="date_choice_array">
         <item>Inbox</item>
         <item>Today</item>
@@ -35,7 +39,8 @@
         <item>Project…</item>
         <item>Area…</item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="projects_areas"><![CDATA[Projects & Areas]]></string>
+    <string name="tags">Tags</string>
+    <string name="email_title">\"Mail to Things\" Address</string>
 </resources>
