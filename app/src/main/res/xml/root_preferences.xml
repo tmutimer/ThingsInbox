@@ -23,10 +23,12 @@
 
     <EditTextPreference
         app:key="lists"
-        app:title="@string/projects_areas"/>
+        app:title="@string/projects_areas"
+        app:summary="@string/lists_hint"/>
 
     <EditTextPreference
         app:key="tags"
-        app:title="@string/tags"/>
+        app:title="@string/tags"
+        app:summary="@string/tags_hint"/>
 
 </PreferenceScreen>
