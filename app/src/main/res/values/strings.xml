@@ -44,4 +44,6 @@
     <string name="tags">Tags</string>
     <string name="email_title">\"Mail to Things\" Address</string>
     <string name="email_hint">e.g. add-to-things-xxxx@things.email</string>
+    <string name="lists_hint">One line for each</string>
+    <string name="tags_hint">One line for each</string>
 </resources>

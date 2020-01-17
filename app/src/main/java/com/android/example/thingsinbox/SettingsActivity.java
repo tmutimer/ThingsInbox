@@ -33,6 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             PreferenceManager manager = getPreferenceManager();
             EditTextPreference emailPreference = manager.findPreference("email");
+            EditTextPreference listsPreference = manager.findPreference("lists");
+            EditTextPreference tagsPreference = manager.findPreference("tags");
+
 
             emailPreference.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
                 @Override
@@ -40,6 +43,22 @@ public class SettingsActivity extends AppCompatActivity {
                     editText.setHint(R.string.email_hint);
                 }
             });
+
+            listsPreference.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    editText.setHint(R.string.lists_hint);
+                }
+            });
+
+            tagsPreference.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    editText.setHint(R.string.tags_hint);
+                }
+            });
+
+
         }
     }
 }
