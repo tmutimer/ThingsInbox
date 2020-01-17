@@ -232,6 +232,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 sendToDo();
             }
         });
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            String receivedIntentText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            mToDoNotes.setText(receivedIntentText);
+        }
     }
 
     public void openSettings(View v) {
