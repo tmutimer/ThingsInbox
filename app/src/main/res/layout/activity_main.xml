@@ -104,7 +104,7 @@
                             android:paddingStart="32dp"
                             android:paddingEnd="32dp" />
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/ll_subtasks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -112,8 +112,10 @@
 
                             <EditText
                                 android:id="@+id/et_todo_subtasks"
-                                android:layout_width="328dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_subtasks"
                                 android:background="@null"
                                 android:hint="@string/todo_subtasks_hint"
                                 android:importantForAutofill="no"
@@ -127,14 +129,16 @@
                                 android:id="@+id/button_cancel_subtasks"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
+                                android:layout_marginEnd="32dp"
                                 android:background="@drawable/ic_cancel_black_24dp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/ll_date_picker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -142,8 +146,10 @@
 
                             <Spinner
                                 android:id="@+id/sp_date_picker"
-                                android:layout_width="328dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_date_picker"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
                                 android:paddingEnd="32dp"
@@ -155,13 +161,16 @@
                                 android:id="@+id/button_cancel_date_picker"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:background="@drawable/ic_cancel_black_24dp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/ll_deadline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -179,9 +188,15 @@
 
                             <TextView
                                 android:id="@+id/et_deadline"
-                                android:layout_width="258dp"
+                                android:onClick="showDatePicker"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_deadline"
+                                android:layout_toEndOf="@+id/deadline_picker_button"
                                 android:background="@null"
+                                android:textSize="18sp"
                                 android:hint="@string/todo_deadline_hint"
                                 android:importantForAutofill="no"
                                 android:padding="16dp"
@@ -192,13 +207,16 @@
                                 android:id="@+id/button_cancel_deadline"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:background="@drawable/ic_cancel_black_24dp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/ll_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -206,12 +224,14 @@
 
                             <AutoCompleteTextView
                                 android:id="@+id/actv_list"
-                                android:layout_width="328dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_list"
                                 android:background="@null"
+                                android:completionThreshold="0"
                                 android:hint="@string/todo_list_hint"
                                 android:importantForAutofill="no"
-                                android:completionThreshold="0"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
                                 android:paddingEnd="32dp" />
@@ -220,14 +240,17 @@
                                 android:id="@+id/button_cancel_list"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:background="@drawable/ic_cancel_black_24dp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/ll_tags"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -235,11 +258,13 @@
 
                             <MultiAutoCompleteTextView
                                 android:id="@+id/mactv_tags"
-                                android:layout_width="328dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_tags"
                                 android:background="@null"
-                                android:hint="@string/todo_tags_hint"
                                 android:completionThreshold="0"
+                                android:hint="@string/todo_tags_hint"
                                 android:importantForAutofill="no"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
@@ -249,11 +274,14 @@
                                 android:id="@+id/button_cancel_tags"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:background="@drawable/ic_cancel_black_24dp" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </LinearLayout>
 

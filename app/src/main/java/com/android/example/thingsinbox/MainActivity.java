@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,11 +51,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageButton mListButton;
     private ImageButton mTagsButton;
 
-    private LinearLayout mSubtasksLayout;
-    private LinearLayout mDateLayout;
-    private LinearLayout mDeadlineLayout;
-    private LinearLayout mListLayout;
-    private LinearLayout mTagsLayout;
+    private RelativeLayout mSubtasksLayout;
+    private RelativeLayout mDateLayout;
+    private RelativeLayout mDeadlineLayout;
+    private RelativeLayout mListLayout;
+    private RelativeLayout mTagsLayout;
     private FloatingActionButton mSendActionButton;
 
     private SharedPreferences mPreferences;
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mTagsCancelButton = (ImageButton) findViewById(R.id.button_cancel_tags);
 
         //wire up linear layouts
-        mSubtasksLayout = (LinearLayout) findViewById(R.id.ll_subtasks);
-        mDateLayout = (LinearLayout) findViewById(R.id.ll_date_picker);
-        mDeadlineLayout = (LinearLayout) findViewById(R.id.ll_deadline);
-        mListLayout = (LinearLayout) findViewById(R.id.ll_list);
-        mTagsLayout = (LinearLayout) findViewById(R.id.ll_tags);
+        mSubtasksLayout = (RelativeLayout) findViewById(R.id.ll_subtasks);
+        mDateLayout = (RelativeLayout) findViewById(R.id.ll_date_picker);
+        mDeadlineLayout = (RelativeLayout) findViewById(R.id.ll_deadline);
+        mListLayout = (RelativeLayout) findViewById(R.id.ll_list);
+        mTagsLayout = (RelativeLayout) findViewById(R.id.ll_tags);
 
         //wire up meta-information bar (by now I wish I had used data binding...)
         mSubtasksButton = (ImageButton) findViewById(R.id.button_checklist_meta_bar);
@@ -328,7 +328,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void setViewDate(View view, int year, int month, int dayOfMonth) {
         String datePickerResult = processDatePickerResult(year, month, dayOfMonth);
 
-        if(view.getId() ==  R.id.deadline_picker_button) {
+        int id = view.getId();
+
+        if(id ==  R.id.deadline_picker_button || id == R.id.et_deadline) {
             mToDoDeadline.setText(datePickerResult);
         } else {
             //TODO sort out spinner display of custom date if possible
