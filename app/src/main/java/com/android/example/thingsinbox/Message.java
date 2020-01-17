@@ -1,5 +1,6 @@
 package com.android.example.thingsinbox;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +30,8 @@ public class Message {
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(intent);
+            Activity activity = (Activity) context;
+            activity.finish();
         }
     }
 
