@@ -43,4 +43,5 @@
     <string name="projects_areas"><![CDATA[Projects & Areas]]></string>
     <string name="tags">Tags</string>
     <string name="email_title">\"Mail to Things\" Address</string>
+    <string name="email_hint">e.g. add-to-things-xxxx@things.email</string>
 </resources>
