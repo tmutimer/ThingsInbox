@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
         app:key="email"
@@ -29,6 +30,12 @@
     <EditTextPreference
         app:key="tags"
         app:title="@string/tags"
-        app:summary="@string/tags_hint"/>
+        app:summary="@string/tags_hint" />
+
+    <CheckBoxPreference
+        app:key="first_run"
+        app:title="First Run?"
+        app:isPreferenceVisible="false"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

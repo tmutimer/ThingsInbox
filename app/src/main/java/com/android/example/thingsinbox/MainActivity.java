@@ -13,6 +13,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -70,6 +71,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         updateFromSharedPreferences();
+
+        boolean isFirstRun = mPreferences.getBoolean("first_run", true);
+
+        if(isFirstRun) {
+            onFirstRun();
+        }
+
+
 
 
         //------------------------BEGIN VIEW WIRING-----------------------//
@@ -238,6 +247,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String receivedIntentText = intent.getStringExtra(Intent.EXTRA_TEXT);
             mToDoNotes.setText(receivedIntentText);
         }
+    }
+
+    /**Runs the first time the app is run, as an introduction/setup */
+    private void onFirstRun() {
+        Toast.makeText(this, "First Run!", Toast.LENGTH_LONG)
+        .show();
+//            mPreferences.edit().putBoolean("first_run",false).apply();
     }
 
     public void openSettings(View v) {
