@@ -73,12 +73,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         updateFromSharedPreferences();
 
         boolean isFirstRun = mPreferences.getBoolean("first_run", true);
-
         if(isFirstRun) {
             onFirstRun();
+            mPreferences.edit().putBoolean("first_run", false).apply();
         }
-
-
 
 
         //------------------------BEGIN VIEW WIRING-----------------------//
@@ -251,9 +249,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**Runs the first time the app is run, as an introduction/setup */
     private void onFirstRun() {
-        Toast.makeText(this, "First Run!", Toast.LENGTH_LONG)
-        .show();
 //            mPreferences.edit().putBoolean("first_run",false).apply();
+        Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
+        startActivity(welcomeIntent);
     }
 
     public void openSettings(View v) {
