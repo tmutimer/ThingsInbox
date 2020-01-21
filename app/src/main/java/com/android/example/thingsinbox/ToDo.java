@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class ToDo extends ThingsItem {
 
     private static final String TAG = ToDo.class.getSimpleName();
@@ -17,8 +19,8 @@ public class ToDo extends ThingsItem {
     private String mNotes;
     private String mDate;
     private String mDeadline;
-    private String[] mSubtasks;
-    private String[] mTags;
+    private ArrayList<String> mSubtasks;
+    private ArrayList<String> mTags;
     private String mList;
 
     public static class Builder {
@@ -26,8 +28,8 @@ public class ToDo extends ThingsItem {
         private String mNotes;
         private String mDate;
         private String mDeadline;
-        private String[] mSubtasks;
-        private String[] mTags;
+        private ArrayList<String> mSubtasks;
+        private ArrayList<String> mTags;
         private String mList;
 
         //Builder methods make use of nulls so that Gson will exclude from Json
@@ -47,8 +49,8 @@ public class ToDo extends ThingsItem {
             return this;
         }
 
-        public Builder subtasks(String[] subtasks) {
-            mSubtasks = (subtasks.length == 1 && subtasks[0].equals("")) ? null : subtasks;
+        public Builder subtasks(ArrayList<String> subtasks) {
+            mSubtasks = (subtasks.size() == 1 && subtasks.get(0).equals("")) ? null : subtasks;
             return this;
         }
 
@@ -57,8 +59,8 @@ public class ToDo extends ThingsItem {
             return this;
         }
 
-        public Builder tags(String[] tags) {
-            mTags = (tags.length == 1 && tags[0].equals("")) ? null : tags;
+        public Builder tags(ArrayList<String> tags) {
+            mTags = (tags.size() == 1 && tags.get(0).equals("")) ? null : tags;
             return this;
         }
 
@@ -72,7 +74,7 @@ public class ToDo extends ThingsItem {
         }
     }
 
-    private ToDo(String title, String notes, String date, String deadline, String[] subtasks, String[] tags, String list) {
+    private ToDo(String title, String notes, String date, String deadline, ArrayList<String> subtasks, ArrayList<String> tags, String list) {
         mTitle = title;
         mNotes = notes;
         mDate = date;

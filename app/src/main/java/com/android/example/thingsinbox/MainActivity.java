@@ -59,8 +59,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private SharedPreferences mPreferences;
     private String mEmailAddress;
-    private String[] mTagArray;
-    private String[] mListArray;
+    private ArrayList<String> mTagArray;
+    private ArrayList<String> mListArray;
+    private ArrayAdapter<String> mListAdapter;
+    private ArrayAdapter<String> mTagAdapter;
 
 
     @Override
@@ -119,26 +121,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //set up Date option spinner
 
         ArrayList<String> dateChoiceArrayList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.date_choice_array)));
-        ArrayAdapter<CharSequence> spinneradapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.date_choice_array, android.R.layout.simple_spinner_item);
 
-        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mToDoDate.setAdapter(spinneradapter);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mToDoDate.setAdapter(spinnerAdapter);
         mToDoDate.setOnItemSelectedListener(this);
 
         //set up List AutoCompleteTextView
 
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
+        mListAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mListArray);
 
-        mToDoList.setAdapter(listAdapter);
+        mToDoList.setAdapter(mListAdapter);
 
         //set up Tags MultiAutoCompleteTextView
 
-        ArrayAdapter<String> tagAdapter = new ArrayAdapter<String>(this,
+        mTagAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mTagArray);
 
-        mToDoTags.setAdapter(tagAdapter);
+        mToDoTags.setAdapter(mTagAdapter);
         mToDoTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 
@@ -287,6 +289,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //TODO Could improve performance by implementing onPreferenceChangeListener
         //as this is called in onCreate and then again in onResume()
         updateFromSharedPreferences();
+        updateAutoCompleteAdapters();
+    }
+
+    private void updateAutoCompleteAdapters() {
+        mTagAdapter.clear();
+        mTagAdapter.addAll(mTagArray);
+
+        mListAdapter.clear();
+        mListAdapter.addAll(mListArray);
     }
 
     private void updateFromSharedPreferences() {
@@ -310,20 +321,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toDo.send(this, mEmailAddress);
     }
 
-    private String[] getSubtasks() {
+    private ArrayList<String> getSubtasks() {
         return splitByLineBreak(mToDoSubtasks.getText().toString());
     }
 
 
     //this should probably be done away with after implementing Chips.
-    private String[] getTags() {
-        return mToDoTags.getText().toString()
-                .trim()
-                .split("\\s*,\\s*");
+    private ArrayList<String> getTags() {
+        String[] strings = mToDoTags.getText().toString().trim().split("\\s*,\\s*");
+        return new ArrayList<>(Arrays.asList(strings));
     }
 
-    public String[] splitByLineBreak(String string) {
-        return string.split("\\r?\\n");
+    public ArrayList<String> splitByLineBreak(String string) {
+        return new ArrayList<>(Arrays.asList(string.split("\\r?\\n")));
     }
 
     public void showDatePicker(View view) {
