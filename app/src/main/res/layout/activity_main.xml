@@ -39,6 +39,7 @@
                 card_view:layout_constraintEnd_toEndOf="@+id/cardView"
                 card_view:layout_constraintTop_toBottomOf="@+id/cardView"
                 card_view:maxImageSize="32dp"
+                android:backgroundTint="@color/colorPrimary"
                 card_view:srcCompat="@drawable/ic_send_black_24dp"
                 card_view:tint="#fafafa" />
 
