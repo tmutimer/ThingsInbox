@@ -338,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void showDatePicker(View view) {
         DialogFragment fragment = new DatePickerFragment(view);
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.MyDatePickerDialogTheme);
         fragment.show(getSupportFragmentManager(),"datePicker");
     }
 
