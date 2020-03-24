@@ -90,6 +90,7 @@
                             android:importantForAutofill="no"
                             android:inputType="textCapSentences|textMultiLine"
                             android:padding="16dp"
+                            android:textCursorDrawable="@drawable/color_cursor"
                             android:paddingStart="60dp"
                             android:textSize="24sp" />
 
@@ -101,6 +102,7 @@
                             android:hint="@string/todo_notes_hint"
                             android:importantForAutofill="no"
                             android:inputType="textCapSentences|textMultiLine"
+                            android:textCursorDrawable="@drawable/color_cursor"
                             android:padding="16dp"
                             android:paddingStart="32dp"
                             android:paddingEnd="32dp" />
@@ -121,6 +123,7 @@
                                 android:hint="@string/todo_subtasks_hint"
                                 android:importantForAutofill="no"
                                 android:inputType="textMultiLine"
+                                android:textCursorDrawable="@drawable/color_cursor"
                                 android:paddingStart="32dp"
                                 android:paddingTop="16dp"
                                 android:paddingEnd="8dp"
