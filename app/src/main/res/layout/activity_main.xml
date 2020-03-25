@@ -185,7 +185,7 @@
                                 android:onClick="showDatePicker"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:background="@drawable/ic_today_black_24dp"
+                                android:background="@drawable/ic_event_black_18dp"
                                 android:layout_marginStart="32dp"
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginTop="12dp"/>
@@ -236,6 +236,7 @@
                                 android:completionThreshold="0"
                                 android:hint="@string/todo_list_hint"
                                 android:importantForAutofill="no"
+                                android:textCursorDrawable="@drawable/color_cursor"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
                                 android:paddingEnd="32dp" />
@@ -269,6 +270,7 @@
                                 android:background="@null"
                                 android:completionThreshold="0"
                                 android:hint="@string/todo_tags_hint"
+                                android:textCursorDrawable="@drawable/color_cursor"
                                 android:importantForAutofill="no"
                                 android:padding="16dp"
                                 android:paddingStart="32dp"
