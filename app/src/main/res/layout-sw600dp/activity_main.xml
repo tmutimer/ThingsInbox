@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:clipChildren="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_margin="76dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:layout_gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/settings_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/ic_settings_black_24dp"
+                android:elevation="9dp"
+                android:onClick="openSettings"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:layout_marginEnd="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:translationZ="10dp"
+                card_view:elevation="16dp"
+                card_view:layout_constraintBottom_toBottomOf="@+id/cardView"
+                card_view:layout_constraintEnd_toEndOf="@+id/cardView"
+                card_view:layout_constraintTop_toBottomOf="@+id/cardView"
+                card_view:maxImageSize="32dp"
+                android:backgroundTint="@color/colorPrimary"
+                card_view:srcCompat="@drawable/ic_send_black_24dp"
+                card_view:tint="#fafafa" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="16dp"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="8dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    tools:context=".MainActivity">
+
+                    <include
+                        android:id="@+id/meta_bar"
+                        layout="@layout/todo_metadata_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:clipChildren="false"
+                        android:divider="@drawable/divider"
+                        android:dividerPadding="16dp"
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        tools:context=".MainActivity">
+
+                        <EditText
+                            android:id="@+id/et_todo_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="@string/todo_title_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:padding="16dp"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            android:paddingStart="60dp"
+                            android:textSize="24sp" />
+
+                        <EditText
+                            android:id="@+id/et_todo_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="@string/todo_notes_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            android:padding="16dp"
+                            android:paddingStart="32dp"
+                            android:paddingEnd="32dp" />
+
+                        <RelativeLayout
+                            android:id="@+id/ll_subtasks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/et_todo_subtasks"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_subtasks"
+                                android:background="@null"
+                                android:hint="@string/todo_subtasks_hint"
+                                android:importantForAutofill="no"
+                                android:inputType="textMultiLine"
+                                android:textCursorDrawable="@drawable/color_cursor"
+                                android:paddingStart="32dp"
+                                android:paddingTop="16dp"
+                                android:paddingEnd="8dp"
+                                android:paddingBottom="16dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_subtasks"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="32dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/ll_date_picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <Spinner
+                                android:id="@+id/sp_date_picker"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_date_picker"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp"
+                                android:spinnerMode="dropdown"
+                                android:visibility="visible"
+                                tools:entries="@array/date_choice_array" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_date_picker"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="32dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/ll_deadline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <ImageButton
+                                android:id="@+id/deadline_picker_button"
+                                android:onClick="showDatePicker"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/ic_event_black_18dp"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="12dp"/>
+
+                            <TextView
+                                android:id="@+id/et_deadline"
+                                android:onClick="showDatePicker"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_deadline"
+                                android:layout_toEndOf="@+id/deadline_picker_button"
+                                android:background="@null"
+                                android:textSize="18sp"
+                                android:hint="@string/todo_deadline_hint"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_deadline"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="32dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/ll_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/actv_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_list"
+                                android:background="@null"
+                                android:completionThreshold="0"
+                                android:hint="@string/todo_list_hint"
+                                android:importantForAutofill="no"
+                                android:textCursorDrawable="@drawable/color_cursor"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_list"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="32dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/ll_tags"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <MultiAutoCompleteTextView
+                                android:id="@+id/mactv_tags"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_toStartOf="@+id/button_cancel_tags"
+                                android:background="@null"
+                                android:completionThreshold="0"
+                                android:hint="@string/todo_tags_hint"
+                                android:textCursorDrawable="@drawable/color_cursor"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:paddingStart="32dp"
+                                android:paddingEnd="32dp" />
+
+                            <ImageButton
+                                android:id="@+id/button_cancel_tags"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="32dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/ic_cancel_black_24dp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="@null"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
