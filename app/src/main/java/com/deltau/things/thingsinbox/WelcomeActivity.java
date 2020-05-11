@@ -1,4 +1,4 @@
-package com.android.example.thingsinbox;
+package com.deltau.things.thingsinbox;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.android.example.thingsinbox.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

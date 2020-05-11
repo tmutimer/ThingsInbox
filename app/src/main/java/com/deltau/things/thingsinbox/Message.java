@@ -1,4 +1,4 @@
-package com.android.example.thingsinbox;
+package com.deltau.things.thingsinbox;
 
 import android.app.Activity;
 import android.content.Context;

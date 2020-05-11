@@ -1,8 +1,9 @@
-package com.android.example.thingsinbox;
+package com.deltau.things.thingsinbox;
 
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.android.example.thingsinbox.R;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

@@ -10,19 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity"
+        <activity android:name="com.deltau.things.thingsinbox.WelcomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.deltau.things.thingsinbox.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.deltau.things.thingsinbox.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.example.thingsinbox.MainActivity" />
+                android:value="com.android.example.thingsinbox.com.deltau.example.thingsinbox.MainActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.deltau.things.thingsinbox.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Translucent">
             <intent-filter>

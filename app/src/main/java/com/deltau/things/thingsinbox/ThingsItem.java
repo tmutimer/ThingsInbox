@@ -1,4 +1,4 @@
-package com.android.example.thingsinbox;
+package com.deltau.things.thingsinbox;
 
 import org.json.JSONObject;
 

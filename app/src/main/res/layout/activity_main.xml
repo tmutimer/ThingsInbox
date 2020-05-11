@@ -61,7 +61,7 @@
                     android:elevation="10dp"
                     android:orientation="vertical"
                     android:showDividers="middle"
-                    tools:context=".MainActivity">
+                    tools:context="com.deltau.things.thingsinbox.MainActivity">
 
                     <include
                         android:id="@+id/meta_bar"
@@ -79,7 +79,7 @@
                         android:dividerPadding="16dp"
                         android:orientation="vertical"
                         android:showDividers="middle"
-                        tools:context=".MainActivity">
+                        tools:context="com.deltau.things.thingsinbox.MainActivity">
 
                         <EditText
                             android:id="@+id/et_todo_title"
