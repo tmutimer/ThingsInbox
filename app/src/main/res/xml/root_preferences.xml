@@ -34,8 +34,14 @@
 
     <CheckBoxPreference
         app:key="first_run"
-        app:title="First Run?"
+        app:title="@string/first_run"
         app:isPreferenceVisible="false"
         android:defaultValue="true" />
+
+    <Preference
+        app:key="help"
+        app:title="@string/help_title"
+        app:isPreferenceVisible="true"
+        app:summary="@string/help_summary" />
 
 </PreferenceScreen>

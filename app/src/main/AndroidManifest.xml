@@ -19,7 +19,7 @@
             android:parentActivityName="com.deltau.things.thingsinbox.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.example.thingsinbox.com.deltau.example.thingsinbox.MainActivity" />
+                android:value="com.deltau.things.thingsinbox.MainActivity" />
         </activity>
         <activity
             android:name="com.deltau.things.thingsinbox.MainActivity"

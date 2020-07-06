@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -37,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
             EditTextPreference emailPreference = manager.findPreference("email");
             EditTextPreference listsPreference = manager.findPreference("lists");
             EditTextPreference tagsPreference = manager.findPreference("tags");
+            Preference helpButton = manager.findPreference("help");
 
 
             emailPreference.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
@@ -60,6 +62,15 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            helpButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Message email = new Message();
+                    email.setRecipients(new String[]{"deltau.app@gmail.com"});
+                    email.sendMessageAsEmail(getContext());
+                    return true;
+                }
+            });
 
         }
     }

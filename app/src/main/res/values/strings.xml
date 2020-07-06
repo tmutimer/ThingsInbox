@@ -49,4 +49,7 @@
     <string name="welcome_title">Welcome to Things Companion!</string>
     <string name="skip">Skip</string>
     <string name="welcome_subtitle">Let\'s quickly set up some preferences...</string>
+    <string name="help_title">Get Help or Buy Developer a Beer</string>
+    <string name="help_summary">Contact deltau.app@gmail.com</string>
+    <string name="first_run">First Run?</string>
 </resources>
