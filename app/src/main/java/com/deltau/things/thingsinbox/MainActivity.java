@@ -13,6 +13,8 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
@@ -20,6 +22,7 @@ import androidx.preference.PreferenceManager;
 import com.android.example.thingsinbox.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -319,7 +322,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .tags(getTags())
                 .build();
 
-        toDo.send(this, mEmailAddress);
+        try {
+            toDo.send(this, mEmailAddress);
+        } catch (UnsupportedEncodingException e) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Something unexpected happened when trying to encode the characters in that item.", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     private ArrayList<String> getSubtasks() {

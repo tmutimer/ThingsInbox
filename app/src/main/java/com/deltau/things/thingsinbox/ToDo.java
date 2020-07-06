@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class ToDo extends ThingsItem {
@@ -108,7 +109,7 @@ public class ToDo extends ThingsItem {
      * Sends the To-Do as an email, either directly (for simple notes), or with URL to open inside Things
      * (for complex notes).
      */
-    public void send(Context context, String recipient) {
+    public void send(Context context, String recipient) throws UnsupportedEncodingException {
         Message message = new Message();
         message.setRecipients(new String[] {recipient});
 
